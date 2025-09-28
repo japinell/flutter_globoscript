@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_globoscript/widgets/glyph_list.dart";
+import "package:flutter_globoscript/widgets/lesson_list.dart";
 
 void main() {
   runApp(const App());
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
             ),
             title: Text("GloboScript"),
           ),
-          body: TabBarView(children: [GlyphListWidget()]),
+          body: TabBarView(children: [GlyphListWidget(), LessonListWidget()]),
         ),
       ),
     );
