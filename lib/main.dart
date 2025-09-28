@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Demo",
+      title: "GloboScript",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
                 Tab(icon: Icon(Icons.mail_outline)),
               ],
             ),
-            title: Text("Globoscript"),
+            title: Text("GloboScript"),
           ),
         ),
       ),
