@@ -16,8 +16,6 @@ enum ActiveButton { none, play, replay, slowMotion }
 
 class _VideoDialogBoxState extends State<VideoDialogBox> {
   VideoPlayerController? _controller;
-  bool _playClicked = false;
-  bool _replayClicked = false;
   ActiveButton _activeButton = ActiveButton.play;
 
   @override
@@ -28,14 +26,6 @@ class _VideoDialogBoxState extends State<VideoDialogBox> {
       _controller?.play();
     });
     _controller?.addListener(() {
-      if (_replayClicked ||
-          (_playClicked &&
-              (_controller?.value.position == _controller?.value.duration))) {
-        _controller?.seekTo(Duration.zero);
-        _replayClicked = false;
-        _playClicked = false;
-      }
-
       setState(() {});
     });
   }
@@ -78,7 +68,6 @@ class _VideoDialogBoxState extends State<VideoDialogBox> {
                 onPressed: () {
                   setState(() {
                     _activeButton = ActiveButton.play;
-                    _playClicked = true;
                     if (_controller?.value.isPlaying ?? false) {
                       _controller?.pause();
                     } else {
@@ -100,7 +89,6 @@ class _VideoDialogBoxState extends State<VideoDialogBox> {
                 onPressed: () {
                   setState(() {
                     _activeButton = ActiveButton.replay;
-                    _replayClicked = true;
                     _controller?.seekTo(Duration.zero);
                     _controller?.play();
                   });
