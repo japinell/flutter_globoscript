@@ -66,6 +66,10 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
     );
   }
 
+  Future<void> _showWebContent(String url) async {
+    return; // TBD: Disable web content for now
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Glyph>>(
@@ -200,6 +204,18 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
                       tooltip: glyph.video.isNotEmpty
                           ? "Play video"
                           : "No video available",
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (glyph.web.isNotEmpty) {
+                          _showWebContent(glyph.web);
+                        }
+                      },
+                      icon: const Icon(Icons.web),
+                      color: Colors.deepPurple,
+                      tooltip: glyph.web.isNotEmpty
+                          ? "Play web"
+                          : "No web available",
                     ),
                   ],
                 ),
