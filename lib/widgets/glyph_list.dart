@@ -189,6 +189,18 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
                           ? "Play audio"
                           : "No audio available",
                     ),
+                    IconButton(
+                      onPressed: () {
+                        if (glyph.video.isNotEmpty) {
+                          _playVideo(glyph.video);
+                        }
+                      },
+                      icon: const Icon(Icons.videocam_rounded),
+                      color: Colors.teal,
+                      tooltip: glyph.video.isNotEmpty
+                          ? "Play video"
+                          : "No video available",
+                    ),
                   ],
                 ),
                 onTap: () {
