@@ -3,6 +3,7 @@ import "dart:convert";
 import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
 import "package:flutter_globoscript/models/glyph.dart";
+import "package:flutter_globoscript/widgets/video_dialog.dart";
 
 class GlyphListWidget extends StatefulWidget {
   const GlyphListWidget({super.key});
@@ -54,6 +55,15 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
     if (_player.state != PlayerState.playing) {
       await _player.play(AssetSource("audio/glyphs/$audioFile"));
     }
+  }
+
+  Future<void> _playVideo(String videoFile) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return VideoDialogBox(fileName: "assets/video/glyphs/$videoFile");
+      },
+    );
   }
 
   @override
