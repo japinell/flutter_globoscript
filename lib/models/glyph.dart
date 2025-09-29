@@ -3,12 +3,14 @@ class Glyph {
   final String info;
   final String audio;
   final String video;
+  final String web;
 
   const Glyph({
     required this.glyph,
     required this.info,
     required this.audio,
     required this.video,
+    required this.web,
   });
 
   factory Glyph.fromJson(Map<String, dynamic> json) {
@@ -17,11 +19,18 @@ class Glyph {
       info: json["info"]?.toString() ?? "",
       audio: json["audio"]?.toString() ?? "",
       video: json["video"]?.toString() ?? "",
+      web: json["web"]?.toString() ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {"glyph": glyph, "info": info, "audio": audio, "video": video};
+    return {
+      "glyph": glyph,
+      "info": info,
+      "audio": audio,
+      "video": video,
+      "web": web,
+    };
   }
 
   @override
@@ -31,15 +40,20 @@ class Glyph {
         other.glyph == glyph &&
         other.info == info &&
         other.audio == audio &&
-        other.video == video;
+        other.video == video &&
+        other.web == web;
   }
 
   @override
   int get hashCode =>
-      glyph.hashCode ^ info.hashCode ^ audio.hashCode ^ video.hashCode;
+      glyph.hashCode ^
+      info.hashCode ^
+      audio.hashCode ^
+      video.hashCode ^
+      web.hashCode;
 
   @override
   String toString() {
-    return "Glyph(glyph: $glyph, info: $info, audio: $audio, video: $video)";
+    return "Glyph(glyph: $glyph, info: $info, audio: $audio, video: $video, web: $web)";
   }
 }
