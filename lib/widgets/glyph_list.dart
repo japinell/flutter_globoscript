@@ -50,6 +50,12 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
         .toList();
   }
 
+  Future<void> _playAudio(String audioFile) async {
+    if (_player.state != PlayerState.playing) {
+      await _player.play(AssetSource("audio/glyphs/$audioFile"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Glyph>>(
@@ -131,12 +137,50 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
         return ListView.builder(
           itemCount: glyphInfo.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              leading: Text(
-                glyphInfo[index].glyph,
-                style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold),
+            final glyph = glyphInfo[index];
+            return Card(
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: ListTile(
+                leading: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).primaryColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      glyph.glyph.isNotEmpty ? glyph.glyph : "?",
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                title: Text(
+                  glyph.info.isNotEmpty ? glyph.info : "No info available",
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    if (glyph.audio.isNotEmpty) {
+                      _playAudio(glyph.audio);
+                    }
+                  },
+                  icon: const Icon(Icons.play_arrow),
+                  tooltip: glyph.audio.isNotEmpty
+                      ? "Play audio"
+                      : "No audio available",
+                ),
+                onTap: () {
+                  if (glyph.audio.isNotEmpty) {
+                    _playAudio(glyph.audio);
+                  }
+                },
               ),
-              title: Text(glyphInfo[index].info),
             );
           },
         );
