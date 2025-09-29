@@ -4,6 +4,7 @@ import "package:audioplayers/audioplayers.dart";
 import "package:flutter/material.dart";
 import "package:flutter_globoscript/models/glyph.dart";
 import "package:flutter_globoscript/widgets/video_dialog.dart";
+import "package:flutter_globoscript/widgets/web_view.dart";
 
 class GlyphListWidget extends StatefulWidget {
   const GlyphListWidget({super.key});
@@ -67,7 +68,12 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
   }
 
   Future<void> _showWebContent(String url) async {
-    return; // TBD: Disable web content for now
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WebViewPage(url: url, title: "Glyph Info"),
+      ),
+    );
   }
 
   @override
@@ -214,8 +220,8 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
                       icon: const Icon(Icons.web),
                       color: Colors.deepPurple,
                       tooltip: glyph.web.isNotEmpty
-                          ? "Play web"
-                          : "No web available",
+                          ? "Show web content"
+                          : "No web content available",
                     ),
                   ],
                 ),
