@@ -174,16 +174,22 @@ class _GlyphListWidgetState extends State<GlyphListWidget> {
                   glyph.info.isNotEmpty ? glyph.info : "No info available",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    if (glyph.audio.isNotEmpty) {
-                      _playAudio(glyph.audio);
-                    }
-                  },
-                  icon: const Icon(Icons.play_arrow),
-                  tooltip: glyph.audio.isNotEmpty
-                      ? "Play audio"
-                      : "No audio available",
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        if (glyph.audio.isNotEmpty) {
+                          _playAudio(glyph.audio);
+                        }
+                      },
+                      icon: const Icon(Icons.play_circle_outline),
+                      color: Colors.orange,
+                      tooltip: glyph.audio.isNotEmpty
+                          ? "Play audio"
+                          : "No audio available",
+                    ),
+                  ],
                 ),
                 onTap: () {
                   if (glyph.audio.isNotEmpty) {
