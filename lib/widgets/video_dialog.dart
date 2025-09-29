@@ -12,11 +12,13 @@ class VideoDialogBox extends StatefulWidget {
   }
 }
 
+enum ActiveButton { none, play, replay, slowMotion }
+
 class _VideoDialogBoxState extends State<VideoDialogBox> {
   VideoPlayerController? _controller;
   bool _playClicked = false;
   bool _replayClicked = false;
-  bool _slowPlay = false;
+  ActiveButton _activeButton = ActiveButton.play;
 
   @override
   void initState() {
@@ -30,11 +32,9 @@ class _VideoDialogBoxState extends State<VideoDialogBox> {
           (_playClicked &&
               (_controller?.value.position == _controller?.value.duration))) {
         _controller?.seekTo(Duration.zero);
+        _replayClicked = false;
+        _playClicked = false;
       }
-
-      _playClicked = false;
-      _replayClicked = false;
-      _slowPlay = false;
 
       setState(() {});
     });
@@ -76,55 +76,65 @@ class _VideoDialogBoxState extends State<VideoDialogBox> {
             children: [
               IconButton(
                 onPressed: () {
-                  _playClicked = true;
-                  _replayClicked = false;
-                  _slowPlay = false;
-
-                  if (_controller?.value.isPlaying ?? false) {
-                    _controller?.pause();
-                  } else {
-                    _controller?.setPlaybackSpeed(1.0);
-                    _controller?.play();
-                  }
+                  setState(() {
+                    _activeButton = ActiveButton.play;
+                    _playClicked = true;
+                    if (_controller?.value.isPlaying ?? false) {
+                      _controller?.pause();
+                    } else {
+                      _controller?.setPlaybackSpeed(1.0);
+                      _controller?.play();
+                    }
+                  });
                 },
                 icon: Icon(
                   _controller?.value.isPlaying ?? false
                       ? Icons.pause
                       : Icons.play_arrow,
+                  color: _activeButton == ActiveButton.play
+                      ? Colors.blue
+                      : Colors.grey,
                 ),
               ),
               IconButton(
                 onPressed: () {
-                  _replayClicked = true;
-                  _playClicked = false;
-                  _slowPlay = false;
-                  _controller?.seekTo(Duration.zero);
-                  _controller?.play();
+                  setState(() {
+                    _activeButton = ActiveButton.replay;
+                    _replayClicked = true;
+                    _controller?.seekTo(Duration.zero);
+                    _controller?.play();
+                  });
                 },
-                icon: const Icon(Icons.replay),
+                icon: Icon(
+                  Icons.replay,
+                  color: _activeButton == ActiveButton.replay
+                      ? Colors.blue
+                      : Colors.grey,
+                ),
               ),
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _slowPlay = true;
-                    _playClicked = false;
-                    _replayClicked = false;
-
-                    if (_controller != null && !_controller!.value.isPlaying) {
-                      _playClicked = true;
+                    _activeButton = ActiveButton.slowMotion;
+                    if (_controller != null) {
                       _controller?.seekTo(Duration.zero);
                       _controller?.setPlaybackSpeed(0.5);
                       _controller?.play();
                     }
                   });
                 },
-                icon: const Icon(Icons.slow_motion_video),
+                icon: Icon(
+                  Icons.slow_motion_video,
+                  color: _activeButton == ActiveButton.slowMotion
+                      ? Colors.blue
+                      : Colors.grey,
+                ),
               ),
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(Icons.close),
+                icon: const Icon(Icons.close, color: Colors.grey),
               ),
             ],
           ),
