@@ -13,12 +13,18 @@ class InMemoryLocationDataStore implements LocationDataStore {
 
   @override
   void updateUserLocation(UserLocation location) {
-    return;
+    final index = _locations.indexWhere(
+      (loc) => loc.username == location.username,
+    );
+
+    if (index != -1) {
+      _locations[index] = location;
+    }
   }
 
   @override
   void deleteUserLocation(UserLocation location) {
-    return;
+    _locations.removeWhere((loc) => loc.username == location.username);
   }
 
   @override
